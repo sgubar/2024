@@ -1,0 +1,24 @@
+# Finder
+.DS_Store*
+
+# Python
+*.pyc
+
+# Xcode
+#
+
+## Build generated
+DerivedData/
+
+## Various settings
+*.pbxuser
+xcuserdata/
+
+## Other
+*.moved-aside
+*.xccheckout
+*.xcscmblueprint
+
+## Obj-C/Swift specific
+*.hmap
+*.dSYM
