@@ -15,15 +15,15 @@ void multiply_matrices(int *matrix1, int nrow1, int ncol1, int *matrix2, int nro
       }
     }
   }
-
   // Вивід результату на екран
-  printf("Result of multiplication:\n");
-  for (int i = 0; i < nrow1; i++) {
-    for (int j = 0; j < ncol2; j++) {
-      printf("%d ", result[i][j]);
-    }
-    printf("\n");
-  }
+ /// printf("Result of multiplication:\n");
+  //for (int i = 0; i < nrow1; i++) {
+   // for (int j = 0; j < ncol2; j++) {
+     // printf("%d ", result[i][j]);
+  //  }
+   // printf("\n");
+  //}
+print_matrix(result, nrow1, ncol1);
 }
 int *create_matrix(int nrow, int ncol) {
   int *result = (int *)malloc(nrow * ncol * sizeof(int));//Використовується функція malloc для виділення пам'яті для матриці
