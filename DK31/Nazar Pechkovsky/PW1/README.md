@@ -1,1 +1,1 @@
-*1sе practical work*
+*1st practical work*
