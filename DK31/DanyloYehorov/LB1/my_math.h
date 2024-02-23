@@ -1,7 +1,7 @@
-#ifndef _dk_tool_h_
-#define _dk_tool_h_
+#ifndef _my_math_h_
+#define _my_math_h_
 
-float *read_AB(void);
+void read_AB(int *A, float *B);
 float calc(int A, float B);
 void destroy_nums(float *nums);
 
