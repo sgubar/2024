@@ -31,7 +31,7 @@ int factorial(int num) {
         old_res = res;                          // save old res for overflow detection
         res *= num--;                           // multiply res by next num
         if (old_res > res) {                    // if new res is greater than new -> overflow
-            printf("Overflow detected! Result would be wrong!\n");
+            printf("Overflow detected! Result will be wrong!\n");
             return -1;
         }
     }
@@ -46,10 +46,10 @@ float modulo(float num) {
 float *read_nums(int quntity, char *letters) {
     const int buf_len = 32;
 
-    char input_buf[buf_len + 1];                // input buffer
-    float *ab_ptr = malloc(2 * sizeof(float));  // allocate memory for A and B
+    char input_buf[buf_len + 1];                                 // input buffer
+    float *nums_ptr = (float*) malloc(quntity * sizeof(float));  // allocate memory for nums
 
-    if (ab_ptr == NULL) {                       // check if the pointer valid
+    if (nums_ptr == NULL) {                                      // check if the pointer valid
         printf("Can't allocate memory!\n");
         return NULL;
     }
@@ -58,26 +58,32 @@ float *read_nums(int quntity, char *letters) {
     for (i = 0; i < quntity; i++) {
         printf("%c: ", *(letters++));       // print promt
         read_str(input_buf, buf_len, "");   // read string
-        ab_ptr[i] = atof(input_buf);        // parse number
+        nums_ptr[i] = atof(input_buf);      // parse number
 
         // if values invalid -> read until number is obtained
         // --------------------------------------------------
         // atoi returns 0 if no number is found
         // so result 0 is valid only when
         // the first letter of the input is '0'
-        while (ab_ptr[i] == 0 && input_buf[0] != '0') {
-            printf("%c: ", *(letters-1));   // print promt
-            read_str(input_buf, 20, "");    // read string
-            ab_ptr[i] = atoi(input_buf);    // parse number
+        while (nums_ptr[i] == 0 && input_buf[0] != '0') {
+            printf("%c: ", *(letters-1));     // print promt
+            read_str(input_buf, 20, "");      // read string
+              nums_ptr[i] = atoi(input_buf);  // parse number
         }
     }
 
-    return ab_ptr;
+    return nums_ptr;
 }
 
 
 
-float *read_AB(void) {
+void read_AB(int *A, float *B) {
+    printf("Enter numbers A and B.\n"
+         "A must be a nonnegative integer.\n"
+         "The mathematical expression\n"
+         "         A * 2 + B = 0\n"
+         "must be false.\n\n");
+
     float *nums;
 
     nums = read_nums(2, "AB");                  // read numbers
@@ -87,7 +93,10 @@ float *read_AB(void) {
         nums = read_nums(2, "AB");              // read one more time
     }
 
-    return nums;
+    *A = (int) nums[0];                         // save A and B to variables
+    *B = nums[1];
+
+    destroy_nums(nums);                         // clean memory
 }
 
 
