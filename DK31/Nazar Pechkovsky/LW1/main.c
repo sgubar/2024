@@ -2,45 +2,26 @@
 
 #include <stdio.h>
 
-int factorial (int n)
-{
-	int fact = 1;
-	for (int i = 1; i <= n; ++i) {
-		fact *= i;
-	}
-	return fact;
-}
-
-int exponent(int a, int b)
-{
-	int exp = 1;
-	for (int i = 0; i < b; i++)
-	{
-		exp *= a;
-	}
-	return exp;
-}
-
 int main(void)
 {
 	int a, b, c, q;
 
 	printf("Enter the integer value A: ");
-	if (scanf("%d", &a) != 1)	//Ïåðåâ³ðêà ÷è íå º öå öèôðîþ
+	if (scanf("%d", &a) != 1)	//ÐŸÐµÑ€ÐµÐ²Ñ–Ñ€ÐºÐ° Ñ‡Ð¸ Ð½Ðµ Ñ” Ñ†Ðµ Ñ†Ð¸Ñ„Ñ€Ð¾ÑŽ
 	{
 		printf("This is not a number");
 		return -1;
 	}
 
 	printf("Enter a positive integer value B: ");
-	if (scanf("%d", &b) != 1)	//Ïåðåâ³ðêà ÷è íå º öå öèôðîþ
+	if (scanf("%d", &b) != 1)	
 	{
 		printf("This is not a number");
 		return -2;
 	}
 
 	printf("Enter the integer value C: ");
-	if (scanf("%d", &c) != 1)	//Ïåðåâ³ðêà ÷è íå º öå öèôðîþ
+	if (scanf("%d", &c) != 1)	
 	{
 		printf("This is not a number");
 		return -3;
