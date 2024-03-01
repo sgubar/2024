@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "line.h"
+#include "pline.h"
 
 int main(int argc, const char * argv[]) {
 	Point A = {5, 5};
@@ -33,10 +34,37 @@ int main(int argc, const char * argv[]) {
 	printLine(CD);
 	printf("\n");
 
+	printf("** Poly Line **\n");
+
+	Pline *pl = createPline(&A, &B);
+	printPline(pl);
+	printf("\n");
+
+	Point A1 = {1, 1};
+	addPointToPline(pl, &A1);
+	printPline(pl);
+	printf("\n");
+
+	Point A2 = {2, 1};
+	addPointToPline(pl, &A2);
+	printPline(pl);
+	printf("\n");
+
+	Point A3 = {3, 1};
+	addPointToPline(pl, &A3);
+	printPline(pl);
+	printf("\n");
+
+	Point A4 = {4, 1};
+	addPointToPline(pl, &A4);
+	printPline(pl);
+	printf("\n");
+
 //	destroyPoint(A);
 //	destroyPoint(B);
 	destroyLine(AB);
 	destroyLine(CD);
+	destroyPline(pl);
 	free(dyn);
 	return 0;
 }

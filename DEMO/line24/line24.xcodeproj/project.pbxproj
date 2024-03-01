@@ -10,6 +10,8 @@
 		73553F8F2B88779300A87F2B /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 73553F8E2B88779300A87F2B /* main.c */; };
 		73553F972B88841900A87F2B /* line.c in Sources */ = {isa = PBXBuildFile; fileRef = 73553F962B88841900A87F2B /* line.c */; };
 		73553F9A2B88843C00A87F2B /* point.c in Sources */ = {isa = PBXBuildFile; fileRef = 73553F992B88843C00A87F2B /* point.c */; };
+		73B869562B91D23C008CF7A0 /* pline.c in Sources */ = {isa = PBXBuildFile; fileRef = 73B869552B91D23C008CF7A0 /* pline.c */; };
+		73B869592B91D444008CF7A0 /* array_points.c in Sources */ = {isa = PBXBuildFile; fileRef = 73B869582B91D444008CF7A0 /* array_points.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -31,6 +33,10 @@
 		73553F962B88841900A87F2B /* line.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = line.c; sourceTree = "<group>"; };
 		73553F982B88843C00A87F2B /* point.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = point.h; sourceTree = "<group>"; };
 		73553F992B88843C00A87F2B /* point.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = point.c; sourceTree = "<group>"; };
+		73B869542B91D23C008CF7A0 /* pline.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = pline.h; sourceTree = "<group>"; };
+		73B869552B91D23C008CF7A0 /* pline.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = pline.c; sourceTree = "<group>"; };
+		73B869572B91D444008CF7A0 /* array_points.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = array_points.h; sourceTree = "<group>"; };
+		73B869582B91D444008CF7A0 /* array_points.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = array_points.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +71,10 @@
 			children = (
 				73553F8E2B88779300A87F2B /* main.c */,
 				73553F952B88841800A87F2B /* line.h */,
+				73B869542B91D23C008CF7A0 /* pline.h */,
+				73B869572B91D444008CF7A0 /* array_points.h */,
+				73B869582B91D444008CF7A0 /* array_points.c */,
+				73B869552B91D23C008CF7A0 /* pline.c */,
 				73553F982B88843C00A87F2B /* point.h */,
 				73553F992B88843C00A87F2B /* point.c */,
 				73553F962B88841900A87F2B /* line.c */,
@@ -129,8 +139,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				73B869562B91D23C008CF7A0 /* pline.c in Sources */,
 				73553F9A2B88843C00A87F2B /* point.c in Sources */,
 				73553F8F2B88779300A87F2B /* main.c in Sources */,
+				73B869592B91D444008CF7A0 /* array_points.c in Sources */,
 				73553F972B88841900A87F2B /* line.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
