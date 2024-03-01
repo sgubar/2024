@@ -1,6 +1,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 
 #include <stdio.h>
+#include "tool.h"
 
 int main(void)
 {
@@ -14,14 +15,14 @@ int main(void)
 	}
 
 	printf("Enter a positive integer value B: ");
-	if (scanf("%d", &b) != 1)	
+	if (scanf("%d", &b) != 1)	//Перевірка чи не є це цифрою
 	{
 		printf("This is not a number");
 		return -2;
 	}
 
 	printf("Enter the integer value C: ");
-	if (scanf("%d", &c) != 1)	
+	if (scanf("%d", &c) != 1)	//Перевірка чи не є це цифрою
 	{
 		printf("This is not a number");
 		return -3;
