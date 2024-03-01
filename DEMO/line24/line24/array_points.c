@@ -77,7 +77,7 @@ void adoptInternalStorage(ArrayPoint *a) {
 		return ;
 	}
 
-	memcpy(newStorage, a->storage, a->preserved);
+	memcpy(newStorage, a->storage, sizeof(Point) * a->preserved);
 
 	free(a->storage);
 	a->storage = newStorage;
