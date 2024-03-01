@@ -15,14 +15,14 @@ int main(void)
 	}
 
 	printf("Enter a positive integer value B: ");
-	if (scanf("%d", &b) != 1)	//Перевірка чи не є це цифрою
+	if (scanf("%d", &b) != 1)	
 	{
 		printf("This is not a number");
 		return -2;
 	}
 
 	printf("Enter the integer value C: ");
-	if (scanf("%d", &c) != 1)	//Перевірка чи не є це цифрою
+	if (scanf("%d", &c) != 1)	
 	{
 		printf("This is not a number");
 		return -3;
