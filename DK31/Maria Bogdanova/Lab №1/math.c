@@ -13,16 +13,25 @@ double power(int base, int pow) { // power обчислює base в степен
   }
   return (pow < 0) ? 1.0 / result : result; //тернарний оператор
 }
+int sum(int start, int finish) {
+  int result = 0;
+
+  for (int i = start; i < finish; i ++) {
+    result += (i + finish);
+  }
+
+  return result;
+}
 
 int q(int A, int B, int C, int D) {
- if (C==0){ 
+ if (C==0){   //**
    while (getchar() !='\n');//програма чекає, доки користувач натисне Enter,виводить повідомлення і потім завершує своє виконання за допомогою функції exit(0)
    printf("С не може бути рівним нулю "); 
    exit(0);
  }
-  int M=(A*B)-C;
+  int M=(A*B)-C; //**
     if (M < 0) {///Цикл для обчислення модуля (використовуємо MOD(n))
-        return MOD(M)/(power(C, 3))*(A+B+C+D)*power(2, D);
+        return MOD(M)/(power(C, 3))*sum(A, power(2, D));
     }else {
       return (M)/(power(C, 3))*(A+B+C+D)*power(2, D);
     }
