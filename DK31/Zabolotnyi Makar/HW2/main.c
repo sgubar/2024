@@ -1,28 +1,26 @@
-
-
-#ifndef points_h
-#define points_h
-
 #include <stdio.h>
 #include "point.h"
-
-typedef struct tagArryOfPoints {
-  Point **storage;
-  int preservedCount;
-  int count;
-} ArrayOfPoints;
-
-ArrayOfPoints *createArrayOfPoints(int aReserved);
-void destroyArrayOfPoints(ArrayOfPoints *anArray);
-
-void addPoint(ArrayOfPoints *anArray, Point *aPoint);
-Point *getPointAt(ArrayOfPoints *anArray, int aIndex);
-
-void printArrayOfPoints(ArrayOfPoints *anArray);
-int countArrayOfPoints(ArrayOfPoints *anArray);
-
-//void addPointAtIndex(ArrayOfPoints *anArray, Point *aPoint, int anIndex);
-//Point *remotePointAtIndex(ArrayOfPoints *anArray, int anIndex);
+#include "line.h"
+#include "triangle.h"
 
 
-#endif /* points_h */
+int main(int argc, const char * argv[]) {
+
+  // insert code here...
+  printf("Hello, World!\n");
+  
+  Point *a = enterPoint();
+  Point *b = enterPoint();
+  Point *c = enterPoint();
+
+  Triangle *triangle = createTriangleByPoints(a, b, c);
+  printTriangle(triangle);
+  printf("\n");
+  printf("Area: %f\n", areaTriangle(triangle));
+  
+  destroyPoint(a);
+  destroyPoint(b);
+  destroyPoint(c);
+  destroyTriangle(triangle);  
+ 
+  return 0;
