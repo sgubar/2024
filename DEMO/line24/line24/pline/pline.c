@@ -34,6 +34,7 @@ void destroyPline(Pline *L) {
 		destroyPoint(getPointAtIndexArray(L->points, i));
 	}
 
+	free(L->points);
 	free(L);
 }
 
