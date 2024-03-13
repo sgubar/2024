@@ -12,5 +12,7 @@ int main(void) {
     printList(l);
     printf("\n");
 
+    destroyList(l);
+
     return 0;
 }
