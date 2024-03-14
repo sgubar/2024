@@ -1,22 +1,25 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include "rec.h"
+#include "point.h"
+#include "rect.h"
+#define MOD(n) (n < 0 ? -n : n)
 
- #define MOD(n) (n < 0 ? -n : n)
-
-int main() {
+int main(void){
   
-  struct Rec myRec;
+  printf("Hello, World!\n");
+  
+  Point *A = createPoint(5, 6);
+  printPoint(A);
+  printf("\n");
 
-    // Користувач вводить координати точок прямокутника
-    printf("Введіть координати лівої верхньої точки (x y): ");
-    scanf("%lf %lf", &myRec.topLeft.x, &myRec.topLeft.y);
+  Point *C = {3, 6};
+  printPoint(&C);
+  printf("\n");
+  
+  Rectangle *R = create_Rectangle(A, C);
+  double area = calculateRectangleArea(R);
+  
+  destroyPoint(A);
+  destroyPoint(C);
 
-    printf("Введіть координати правої нижньої точки (x y): ");
-    scanf("%lf %lf", &myRec.bottomRight.x, &myRec.bottomRight.y);
-  double area = calculateRectangleArea(myRec);
-
-    printf("Площа прямокутника: %.2f\n", MOD(area));
-
-    return 0;
+return 0;
 }
