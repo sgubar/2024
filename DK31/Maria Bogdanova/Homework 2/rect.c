@@ -2,35 +2,32 @@
 #include <stdlib.h>
 #include <string.h>
 
-Rectangle *create_Rectangle(void) {
-  Rectangle *result = (Rectangle *)malloc(sizeof(Rectangle));
+Rectangle *create_Rectangle(Point *A, Point *C) {
+  Rectangle *result = (Rectangle *)malloc(sizeof(Rectangle)); //виділяємо пам'ять для структури
 
-  if (NULL != result) {
-    result->A = NULL;
-    result->C = NULL;
+  if (NULL != result) { //перевірка чи result не нуль
+    result->A = createPoint(A->x, A->y); //нова точка, яка копіює координати вершини A
+    result->C = createPoint(C->x, C->y); //нова точка, яка копіює координати вершини В
   }
-
-//	memset(result, 0, sizeof(Rectangle));
-//bzero(result, sizeof(Rectangle));
 
   return result;
 }
 
 void destroyRectangle(Rectangle *R) {
-  if (NULL == R) {
+  if (NULL == R) { //перевірка чи R не нуль
     return;
   }
 
-  destroyPoint(R->A);
-  destroyPoint(R->C);
+  destroyPoint(R->A); //видаляємо точку А
+  destroyPoint(R->C); //видаляємо точку В
 
-  free(R);
+  free(R); //звільнюємо пам'ять структури
 }
 
-double calculateRectangleArea(Rectangle *R) {  //Обчислює площу прямокутника за допомогою координат його верхньої лівої та нижньої правої точок
+double calculateRectangleArea(Rectangle *R) //Обчислюємо площу
+{
     double width = R->A->x - R->C->x;
     double height = R->A->y - R->C->y;
     double area =width*height; 
-   printf("Площа прямокутника: %.2f\n", area);
     return area; 
 }
