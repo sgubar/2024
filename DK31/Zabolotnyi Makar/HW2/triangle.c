@@ -4,88 +4,60 @@
 
 double side(Point *A, Point *B);
 
-Triangle *createEmptyTriangle(void) {
+Triangle *createTriangle(int ax, int ay, int bx, int by, int cx, int cy){
   Triangle *result = (Triangle *)malloc(sizeof(Triangle));
-
-  if (NULL != result) {
-    result->points = createArrayOfPoints(3);
-    if (NULL == result->points) { //failed to create internal storage
-      free(result);
-      return NULL;
-    }
+  if (NULL != result){
+    result->A = createPoint(ax, ay);
+    result->B = createPoint(bx, by);
+    result->C = createPoint(cx, cy);
   }
-
   return result;
 }
 
-Triangle *createTriangle(int ax, int ay, int bx, int by, int cx, int cy) {
-  Triangle *result = createEmptyTriangle();
-
-  if (NULL != result) {
-    addPoint(result->points, createPoint(ax, ay));
-    addPoint(result->points, createPoint(bx, by));
-    addPoint(result->points, createPoint(cx, cy));
-  }
-
-  return result;
-}
-
-Triangle *createTriangleByPoints(Point *anA, Point *aB, Point *aC) {
-  if (NULL == anA || NULL == aB || NULL == aC) {
+Triangle *createTriangleByPoints(Point *A, Point *B, Point *C){
+  if (NULL == A || NULL == B || NULL == C){
     return NULL;
   }
-
-  return createTriangle(anA->x, anA->y, aB->x, aB->y, aC->x, aC->y);
+  return createTriangle(A->x, A->y, B->x, B->y, C->x, C->y);
+  
 }
 
-
-
-void destroyTriangle(Triangle *aLine) {
-  if (NULL == aLine) {
-    return ;
+void destroyTriangle(Triangle *aTriangle){
+  if (NULL == aTriangle){
+    return;
   }
-
-  // destroy all owned points which are present in our storage
-  for (int i = 0; i < countArrayOfPoints(aLine->points); i++) {
-    destroyPoint(getPointAt(aLine->points, i));
-  }
+  destroyPoint(aTriangle->A);
+  destroyPoint(aTriangle->B);
+  destroyPoint(aTriangle->C);
+  free(aTriangle);
 }
 
-void printTriangle(Triangle *aLine) {
-  if (NULL == aLine) {
-    return ;
+void printTriangle(Triangle *aTriangle){
+  if (NULL == aTriangle){
+    return;
   }
-
-  // destroy all owned points which are present in our storage
-  for (int i = 0; i < countArrayOfPoints(aLine->points); i++) {
-    printPoint(getPointAt(aLine->points, i));
-    printf("-");
-  }
+  printPoint(aTriangle->A);
+  printf(" - ");
+  printPoint(aTriangle->B);
+  printf(" - ");
+  printPoint(aTriangle->C);
 }
 
-double areaTriangle(Triangle *aLine) {
-  if (NULL == aLine) {
-    return 0;
+double areaOfTriangle(Triangle *aTriangle){
+  if (NULL == aTriangle){
+    return-1;
   }
-
-  int count = countArrayOfPoints(aLine->points);
-
-  if (count <= 1) {
-    return 0;
-  }
-
-  Point *first = getPointAt(aLine->points, 0);
   double area = 0;
-
-    Point *a = getPointAt(aLine->points, 0);
-    Point *b = getPointAt(aLine->points, 1);
-    Point *c = getPointAt(aLine->points, 2);
+  
+  Point *a = aTriangle->A;
+    Point *b = aTriangle->B;
+    Point *c = aTriangle->C;
     double ab = side(a, b);
     double ac = side(a, c);
     double bc = side(b, c);
     double p = (ab + ac + bc) / 2;
     area = sqrt(p * (p - ab) * (p - ac) * (p - bc));
-  
+
   return area;
 }
 
