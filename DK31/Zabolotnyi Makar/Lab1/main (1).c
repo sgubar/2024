@@ -1,13 +1,14 @@
 #include <stdio.h>
 #include <ctype.h>
 #include "math_tool.h"
+#include <string.h>
 
 int main(void) {
-  long int a, b,c;
+  long int a,b,c;
+
   do{
-  printf("Введіть натуральне значення A\n");
-  scanf("%li", &a);
-  }while(a<0);
+  a = check_natural();
+  }while(a<=0);
   printf("Введіть натуральне значення B\n");
   scanf("%li", &b);
   do{
