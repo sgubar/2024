@@ -1,4 +1,7 @@
 #include "math_tool.h"
+#include <ctype.h>
+#include <string.h>
+#include <stdio.h>
 
 int add(int a, int b) {
   return a + b;
@@ -43,23 +46,28 @@ int math_modulos(int a){
   else return a;
 }  
 
-int check_natural(char a[]){
+int check_natural(){
   // функція для перевірки натуральності числа
-  int j=0;
-  
+  char input[10];
+  printf("Введіть натуральне значення A\n ");
+  fgets(input, sizeof(input), stdin);
+  int x = strlen(input);
   int i = 0;
-      while (a[i] != '\0') {
-        //перевірка на наявність знаків пунктуації
-          if (ispunct(a[i])) {
-              return 0;
-              break;
+      while (input[i] != '\0' ) {
+          if (ispunct(input[i])) {
+            return 0;
+            break;
           }
+
           i++;
       }
 
-      if (a[i] == '\0') {
-          return 0;
-      }
-
-      return 1;
+      if (input[i] == '\0') {
+        unsigned int a=0;
+        for(int i=0;i<x-1;i++){
+          a = a*10 + (input[i]-'0');
+        }
+        return a;}
+  
   }
+  
