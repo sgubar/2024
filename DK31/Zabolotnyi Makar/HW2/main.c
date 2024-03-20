@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include "point.h"
-#include "line.h"
 #include "triangle.h"
 
 
@@ -8,7 +7,7 @@ int main(int argc, const char * argv[]) {
 
   // insert code here...
   printf("Hello, World!\n");
-  
+
   Point *a = enterPoint();
   Point *b = enterPoint();
   Point *c = enterPoint();
@@ -16,11 +15,13 @@ int main(int argc, const char * argv[]) {
   Triangle *triangle = createTriangleByPoints(a, b, c);
   printTriangle(triangle);
   printf("\n");
-  printf("Area: %f\n", areaTriangle(triangle));
-  
+  printf("Area: %f\n", areaOfTriangle(triangle));
+
   destroyPoint(a);
   destroyPoint(b);
   destroyPoint(c);
   destroyTriangle(triangle);  
- 
+
   return 0;
+
+}
