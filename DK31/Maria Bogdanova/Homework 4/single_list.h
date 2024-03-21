@@ -3,32 +3,31 @@
 
 #include <stdio.h>
 
-typedef struct tagSingleListFloatElement {
+typedef struct tagSingleListFloatElement { //структура для елементу однозвязного списку
 
-struct tagSingleListFloatElement *next;
-float value;
+struct tagSingleListFloatElement *next; //next - вказівник на наступний елемент
+float value; //наш список зберігатиме значення value
 
-} SingleListFloatElement;
+} SingleListFloatElement; //назва структури
 
-SingleListFloatElement *createSingleListFloatElement(float value);
-void deleteSingleListFloatElement(SingleListFloatElement *element);
-void printSingleListFloatElement(SingleListFloatElement *element);
+SingleListFloatElement *createSingleListFloatElement(float value); //функція для створення елемента
+void deleteSingleListFloatElement(SingleListFloatElement *element);//функція для видалення елемента
+void printSingleListFloatElement(SingleListFloatElement *element);//функція для виведення елемента
 
-typedef struct tagFloatSingleList{
- SingleListFloatElement *head; 
-//long count;
-} FloatSingleList;
+typedef struct tagFloatSingleList { //структура для списку
+ SingleListFloatElement *head; //початок (голова) списку
+} FloatSingleList; //назва структури
 
-FloatSingleList *createFloatSingleList(void);
-void deleteFloatSingleList(FloatSingleList *list);
-void printFloatSingleList(FloatSingleList *list);
+FloatSingleList *createFloatSingleList(void); //функція для створення списку
+void deleteFloatSingleList(FloatSingleList *list); //функція для видалення списку
+void printFloatSingleList(FloatSingleList *list); //функція для виведення списку
 
-long countOfFloatSingleList(FloatSingleList *list);
-float addFloatValueToFloatSingleList(FloatSingleList *list, float value);
-void removeLastElementFromFloatSingleList(FloatSingleList *list);
-void removeFirstElementFromFloatSingleList(FloatSingleList *list);
+long countOfFloatSingleList(FloatSingleList *list); //функція для підрахунку кількості елементів
+float addFloatValueToFloatSingleList(FloatSingleList *list, float value); //функція для додавання елементу до списку
+void removeLastElementFromFloatSingleList(FloatSingleList *list); //функція для видалення останнього елементу
+void removeFirstElementFromFloatSingleList(FloatSingleList *list); //функція для видалення першого елементу
 
-float insertFloatElementToFloatSingleListAtIndex(FloatSingleList *list, float index, float value);
-float removeFloatElementFromFloatSingleListAtIndex(FloatSingleList *list, float index);
+float insertFloatElementToFloatSingleListAtIndex(FloatSingleList *list, float index, float value); //функція для додавання елементу за індеком
+float removeFloatElementFromFloatSingleListAtIndex(FloatSingleList *list, float index); //функція для видалення елементу за індеком
 
 #endif
