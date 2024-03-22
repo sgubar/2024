@@ -7,7 +7,6 @@ void oorTests(void);
 
 int main(void) {
   generalTests();
-
   oorTests();
 
   return 0;
@@ -30,12 +29,27 @@ void oorTests(void) {
   listInfo(l, "\nAfter ");
 
   //---------------------------
+  listInfo(l, "Deleting out of range (3):\nBefore");
+
+  deleteNumberFromList(l, 3);
+
+  listInfo(l, "\nAfter ");
+
+  //---------------------------
   listInfo(l, "\n\nInserting out of range (10):\nBefore");
 
   insertNumberToList(l, 10, 0.1);
 
   listInfo(l, "\nAfter ");
 
+  //---------------------------
+  listInfo(l, "\n\nInserting out of range (3):\nBefore");
+
+  insertNumberToList(l, 3, 0.1);
+
+  listInfo(l, "\nAfter ");
+
+  //---------------------------
   printf("\n\n");
 
   destroyList(l);
@@ -99,6 +113,7 @@ void generalTests(void) {
 
   listInfo(l, "\nAfter ");
 
+  //---------------------------
   printf("\n\n");
 
   destroyList(l);
