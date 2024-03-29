@@ -2,9 +2,9 @@
 #include <cs50.h>
 
 int main(void) {
-  Tree *Tras = fillTree();
+  Tree *Tras = fillTree();//створюємо та заповнюємо дерево
   
-  printTree(Tras);
+  printTree(Tras);//виводимо дерево
 
   destroyTree(Tras);//видаляємо дерево
   return 0;
