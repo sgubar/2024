@@ -9,6 +9,7 @@
 
 ## Build generated
 DerivedData/
+build/
 
 ## Various settings
 *.pbxuser
@@ -22,3 +23,4 @@ xcuserdata/
 ## Obj-C/Swift specific
 *.hmap
 *.dSYM
+
