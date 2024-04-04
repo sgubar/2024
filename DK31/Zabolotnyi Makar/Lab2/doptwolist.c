@@ -234,6 +234,7 @@ void doubleElement(Double2List *list, double element) {
   if (NULL == list || (list->head == NULL && list->head != list->tail)) {
     return;
   }
+  
   Double2ListElement *current = list->head;
   while (current != NULL) {
       if (current->value == element){
@@ -241,17 +242,14 @@ void doubleElement(Double2List *list, double element) {
           duplicate->next = current->next;
           duplicate->prev = current;
           current->next = duplicate;
-        if (current->next != NULL){
-          current->next->prev = duplicate;
-        }
-        current->next = duplicate;
+          if(current == list->tail){
+              list->tail = duplicate;
+          }
+        //current->next = duplicate;
             current = duplicate->next;
         }
-      if (current == NULL){
-        printf("Invalid a pointer to the list\n");
-      }
       else {
         current = current->next;    
       } 
-  }
+  } 
 }
