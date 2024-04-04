@@ -14,13 +14,25 @@ int main(void) {
       printf("Введіть ціле число: ");
       scanf("%d", &value);
       addDoubleValueToDouble2List(l, value);
-      doubleElement(l, value);
       printf("Продовжити введення? (press a or l on keyboard): ");
       scanf(" %c", &choice);
   } while (choice == 'l' || choice == 'L' || choice == 'a' || choice == 'A');
 
   // Виводимо список
   printf("Двозв'язний список:\n");
+  printDouble2List(l);
+  // Запитуємо у користувача подвоєння значень
+  do{
+    printf("Введіть елемент який потрібно подвоїти: ");
+    scanf("%d", &value);
+    doubleElement(l, value);
+    printf("Продовжити введення? (press a or l on keyboard): ");
+    scanf(" %c", &choice);
+    
+  }while(choice == 'l' || choice == 'L' || choice == 'a' || choice == 'A');
+
+  // Виводимо список з подвоєнням
+  printf("Двозв'язний список з подвоїними елементами:\n");
   printDouble2List(l);
   
   printf("*** END OF TEST LINKED LIST *** \n");
