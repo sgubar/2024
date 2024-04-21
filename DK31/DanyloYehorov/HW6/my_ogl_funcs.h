@@ -1,3 +1,6 @@
+#ifndef MY_OGL_FUNCS_H
+#define MY_OGL_FUNCS_H
+
 typedef struct tagColorProps {
     float red;
     float green;
@@ -27,3 +30,5 @@ void setSteps(float coordStep, float curveStep);
 void setCurveColor(unsigned char r, unsigned char g, unsigned char b);
 void setBackColor(unsigned char r, unsigned char g, unsigned char b);
 void setCoordsColor(unsigned char r, unsigned char g, unsigned char b);
+
+#endif
