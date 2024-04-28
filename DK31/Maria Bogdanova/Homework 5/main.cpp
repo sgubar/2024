@@ -11,21 +11,15 @@ void display()
     glClearColor(1.0f, 1.0f, 1.0f, 1.0f); // Задаємо білий фон
     glClear(GL_COLOR_BUFFER_BIT); // Очищення буферу кольору
 
-    // Малюємо графіки 
+    // Малюємо графіки
     glBegin(GL_LINE_STRIP); // Кожна пара вершини задає відрізок
         glColor3f(1.0f, 0.0f, 0.0f);// Червоний колір
-        for (float y = -M_PI; y <= M_PI; y += 0.1) {
-            float x = cos(3.14)*cos(3.14)-cos(3.14) / M_PI;
-            glVertex2f(x / M_PI, y);
-        }
-    glEnd();
-
-        glBegin(GL_LINE_STRIP); // Кожна пара вершини задає відрізок
-        glColor3f(1.0f, 0.0f, 0.0f);// Червоний колір
-        for (float x = -M_PI; x <= M_PI; x += 0.1) {
-            float y = sin(3.14)*cos(3.14)-cos(3.14) / M_PI;
-            glVertex2f(x / M_PI, y);
-        }
+       for (float t = -M_PI; t <= M_PI; t += 0.01) {
+           //будуємо графік
+    float x = 1*cos(t)*cos(t) - 2 * cos(t); 
+    float y = 1*sin(t)*cos(t) - 2 * cos(t);
+    glVertex2f(x, y);
+  }
     glEnd();
 
     // Малювання координатних осей
