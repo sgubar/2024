@@ -29,8 +29,8 @@ void display()
     glBegin(GL_LINE_STRIP); // Кожна пара вершини задає відрізок
         glColor3f(0.0f, 1.0f, 0.0f); // Жовтий колір
         for (float t = 0; t <= 5*M_PI; t += 0.1) {
-            float y = exp(t*0.25)*sin(t) / M_PI;
-            float x = exp(t*0.25)*cos(t) / M_PI;
+            float y = exp(t*0.25)*sin(t) /(15*M_PI);
+            float x = exp(t*0.25)*cos(t) /(15*M_PI);
             glVertex2f(x , y);
         }
     glEnd();
