@@ -155,8 +155,8 @@ void deleteNodeWithValue(DoubleTree *aTree, double aValue) {
     }
   } else {
     DoubleNode *successor = getSuccessor(aTree, current);
-    if (aTree->root == successor) {
-      aTree->root = NULL;
+    if (aTree->root == current) {
+      aTree->root = successor;
     } else if (parent->leftChild == current) {
       parent->leftChild = successor;
     } else {
