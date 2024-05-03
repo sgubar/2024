@@ -1,3 +1,6 @@
+
+//Варіант 4
+
 #ifdef __APPLE__
 #include <GLUT/glut.h>
 #else
@@ -14,7 +17,7 @@ bool moveScene = false;
 // Функція, що викликатиметься для малювання сцени
 void display()
 {
-    glClearColor(0.55f, 0.2f, 0.0f, 1.0f); // Фон чорний та прозорий
+    glClearColor(0.55f, 0.2f, 0.0f, 1.0f); // Фон коричневий та прозорий
     glClear(GL_COLOR_BUFFER_BIT); // Очищення буферу кольору
     if (moveScene == true){
     glTranslatef(a_x*kkd, a_y*kkd , 0);
@@ -27,7 +30,7 @@ void display()
      siz = 1 ;
     // Малювання серії відрізків, що є графіком функції
     glBegin(GL_LINE_STRIP); // Кожна пара вершини задає відрізок
-        glColor3f(0.0f, 1.0f, 0.0f); // Жовтий колір
+        glColor3f(0.0f, 1.0f, 0.0f); // зелений колір
         for (float t = 0; t <= 5*M_PI; t += 0.1) {
             float y = exp(t*0.25)*sin(t) /(15*M_PI);
             float x = exp(t*0.25)*cos(t) /(15*M_PI);
@@ -37,7 +40,7 @@ void display()
 
     // Малювання координатних осей
     glBegin(GL_LINE_STRIP);
-        glColor3f(1.0f, 0.0f, 0.0f);
+        glColor3f(1.0f, 0.0f, 0.0f);//червоний колір
         glVertex2f(0.0, -1.0);
         glVertex2f(0.0, 1.0);
     glEnd();
