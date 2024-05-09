@@ -1,192 +1,120 @@
-#ifdef __APPLE__
-#include <GLUT/glut.h>
-#else
-#include <GL/glut.h>
-#endif
+#include <windows.h>
+#include <GL/glut.h> //
+#define _USE_MATH_DEFINES
+#include <math.h>
+#include <iostream>
 
-//#include <stdlib.h>
+#include "point.h"
+#include "figure.h"
 
-// Глобальні змінні
-char title[] = "Prism";
-bool perspective = true;
-bool moveScene = false;
-int mouse_x,
-mouse_y;
-float a_x = 0, a_y = 0;
-float zoom_param = -7.0;
-float zoom_delta = 0.1;
+// Назва та розміри вікна
+char title[] = "Rotating Graph";
+int curr_width = 600, curr_height = 600;
 
+int t = 1000 / 24; // Період обертання фігури навколо початку координат (в даному прикладі робимо 1 оберт за 24 кадри/с)
+float theta_spd = 360.0f / t; // Кут оберту між кадрами
+float theta = 0.0f; // Кут оберту
+FigureList_s* figlist; // Cписок фігур
 
-// Ініціалізація OpenGL
-void initGL()
-{
-    glClearColor(0.f, 0.f, 0.f, 1.f); // Фон - чорний та прозорий
-    glClearDepth(1.f); // Глибина фону - найбільш віддалена
-    glEnable(GL_DEPTH_TEST); // Дозвіл тестування глибини
-    glDepthFunc(GL_LEQUAL); // Тип функції тестування глибини
-    glShadeModel(GL_SMOOTH); // Дозвіл гладкого зафарбовування
-    glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST); // Корекція перспективи
-}
-
-
-// Функція обробки запиту на перемалювання. Виконує малювання сцени.
 void display()
 {
-    glClear(GL_COLOR_BUFFER_BIT | // Очищення буферу кольору
-    GL_DEPTH_BUFFER_BIT); // та буферу глибини
-    glMatrixMode(GL_MODELVIEW); // Вибір матриці модель-вигляд
-    glLoadIdentity(); // Скидання параметрів матриці шляхом
-    // завантаження одиничної матриці
+    // Малювання фігур по одній
+    drawFigList(figlist);
 
-    glTranslatef(0.f, 0.f, zoom_param); // Зміщення об'єкта у глибину екрану
-    glRotatef(a_x, 1, 0, 0); // Обертання навколо осі x
-    glRotatef(a_y, 0, 1, 0); // Обертання навколо осі y
-    // Малювання об'єкта – куба з гранями різного кольору
-    glBegin(GL_TRIANGLES); // Куб складається з 6 квадратів (чотирикутників)
-
-    // Верхня грань (y = 1.0f)
-glColor3f(0.0f, 1.0f, 0.0f);
-    glVertex3f(0.866025f, 1.0f, 0.5f);  // Перша вершина трикутника
-    glVertex3f(- 0.866025f, 1.0f, 0.5f);  // Друга вершина трикутника
-    glVertex3f(0.0f, 1.0f, -1.0f);
-
-
-    // Нижня грань (y = -1.0f)
- glColor3f(1.0f, 1.0f, 0.0f);//Жовта
-    glVertex3f(0.866025f, -1.0f, 0.5f);  // Перша вершина трикутника
-    glVertex3f(-0.866025f, -1.0f, 0.5f);  // Друга вершина трикутника
-    glVertex3f(0.0f, -1.0f, -1.0f);
-
-
-    glEnd();
-    glBegin(GL_QUADS);
-
-    // Передня грань (z = 1.0f)
-    glColor3f(0.0f, 1.0f, 1.0f); //Бірюзовий
-    glVertex3f( 0.866025f, 1.0f, 0.5f);
-    glVertex3f(-0.866025f, 1.0f, 0.5f);
-    glVertex3f(-0.866025f, -1.0f, 0.5f);
-    glVertex3f( 0.866025f, -1.0f, 0.5f);
-
-
-    // Ліва грань (x = -1.0f)
-    glColor3f(1.0f, 0.0f, 1.2f);
-    glVertex3f(-0.866025f, 1.0f, 0.5f);
-    glVertex3f(-0.866025f, -1.0f, 0.5f);
-    glVertex3f(0.0f, -1.0f, -1.0f);
-    glVertex3f(0.0f, 1.0f, -1.0f);
-
-    // Права грань (x = 1.0f)
-        glColor3f(0.0f, 0.0f, 1.0f); // Синя
-    glVertex3f(0.866025f, 1.0f, 0.5f);
-    glVertex3f(0.866025f, -1.0f, 0.5f);
-    glVertex3f(0.0f, -1.0f, -1.0f);
-    glVertex3f(0.0f, 1.0f, -1.0f);
-
-    glEnd(); // Завершення малювання
-    glutSwapBuffers(); // Обмін буферів кадру
-    // (використовується подвійна буферизація)
+    // Запит на малювання сцени
+    glFlush();
 }
 
-
-// Функція обробки події, що виникає при масштабуванні вікна
-void reshape(int width, int height)
+// Ця функція викликається через t мс після увімкнення таймеру і перемальовує фігури
+void timer_dis(int v)
 {
-    // Обчислення відношення сторін вікна нового розміру
-    if (height == 0) // Перевірка для уникнення ділення на 0
-    height = 1;
-    GLfloat aspect = (GLfloat)width / (GLfloat)height;
+    // Очищуємо буфер щоб зображення не накладалися
+    glClear(GL_COLOR_BUFFER_BIT);
 
-    // Встановлення розміру поля огляду відповідно до нових розмірів вікна
-    glViewport(0, 0, width, height);
+    // Виконується обертання сцени
+    glPushMatrix();
+    glRotatef(theta, 0.0f, 0.0f, 1.0f);
 
-    // Встановлення параметрів проекційної матриці
-    glMatrixMode(GL_PROJECTION); // Вибір матриці проекції
-    glLoadIdentity(); // Скидання матриці
+    // Малювання фігур по одній
+    drawFigList(figlist);
 
-    // Використання перспективної проекції з
-    // параметрами fovy = 45, aspect, zNear = 0.1 та zFar = 100
-    gluPerspective(45.0f, aspect, 0.1f, 100.0f);
-}
+    // Запит на малювання сцени
+    glFlush();
 
+    // Повернення до початкових налаштувань виду сцени
+    glPopMatrix();
 
-// Функція обробки події, що виникає при натисканні клавіш клавіатури
-void keyboard(unsigned char key, int x, int y)
-{
-    switch (key) {
-        case 27: // Esc
-            exit(0);
-            break;
+    // Перезапуск таймера
+    glutTimerFunc(t, timer_dis, 0);
+
+    // Оновлення кута оберту
+    theta += theta_spd;
+    if (theta >= (360)){
+        theta = 0;
     }
 }
 
 
-// Функція обробки події, що виникає при натисканні клавіш мишки
-void mouseClick(int button, int state, int x, int y)
-{
-    if (GLUT_LEFT_BUTTON == button && state == GLUT_DOWN) {
-        moveScene = true;
-        mouse_x = x;
-        mouse_y = y;
-    }
-
-    if (GLUT_LEFT_BUTTON == button && state == GLUT_UP) {
-        moveScene = false;
-    }
-}
-
-
-// Функція обробки події, що виникає при натисканні клавіш клавіатури
-void specKeyHandler(int sk, int x, int y)
-{
-    // Якщо натискаємо стрілку вгору - наближуємось до фігури, якщо вниз - віддаляємось від неї
-    if (sk == GLUT_KEY_RIGHT) {
-        zoom_param += zoom_delta;
-    }
-    else if (sk == GLUT_KEY_LEFT) {
-        zoom_param -= zoom_delta;
-    }
-}
-
-
-// Функція обробки події, що виникає при виникнення руху мишки
-void mouseMove(int x, int y)
-{
-    int dx = mouse_x - x,
-    dy = mouse_y - y;
-    a_x -= 0.250f * dy;
-    a_y -= 0.250f * dx;
-    mouse_x = x;
-    mouse_y = y;
-}
-
-
-// Функція обробки події, що виникає при спрацюванні таймеру
-void Timer(int value)
-{
-    glutPostRedisplay(); // Генерування запиту на перемалювання
-    // сцени викликає функцію display()
-
-    glutTimerFunc(30, Timer, 0); // Новий запуск таймера на 30 мс
-}
-
-
-// Головна функція: програма GLUT виконується як консольний додаток
 int main(int argc, char* argv[])
 {
-    glutInit(&argc, argv); // Ініціалізація GLUT
-    glutInitDisplayMode(GLUT_DOUBLE); // Ввімкнення подвійної буферизації
-    glutInitWindowSize(640, 480); // Встановлення розміру вікна
-    glutInitWindowPosition(50, 50); // Встановлення положення вікна
-    glutCreateWindow(title); // Створення вікна із заданим ім'ям
-    glutDisplayFunc(display); // Реєстрація обробника запиту перемалювання
-    glutReshapeFunc(reshape); // Реєстрація обробника запиту масштабування
-    glutKeyboardFunc(keyboard); // Реєстрація обробника подій клавіатури
-    glutMouseFunc(mouseClick); // Реєстрація обробника натискання клавіш миші
-    glutMotionFunc(mouseMove); // Реєстрація обробника руху миші
-    glutSpecialFunc(specKeyHandler); // Реєстрація обробника подій клавіатури (спеціальні клавіши)
-    glutTimerFunc(0, Timer, 0); // Запуск та реєстрація обробки таймера
-    initGL(); // Ініціалізація OpenGL
-    glutMainLoop(); // Вхід у головний нескінченний цикл обробки подій
-return 0;
+    Point* points1[4];
+    Point* points2[4];
+    Point* points3[4];
+    Point* points4[4];
+
+    Figure_s *figure1, *figure2, *figure3, *figure4;
+
+    // Створимо список фігур
+    figlist = createFigList();
+
+    // Створимо фігури і додамо їх до списку
+    points1[0] = createPoint(10, 50);
+    points1[1] = createPoint(50, 50);
+    points1[2] = createPoint(50, 10);
+    points1[3] = createPoint(10, 10);
+    figure1 = createFigure(points1, createColor(1.0, 0.0, 0.0));
+
+    addFigToFigList(figlist, figure1); //Додаємо фігуру 1 до списку
+
+    points2[0] = createPoint(0, -60);
+    points2[1] = createPoint(-60, -60);
+    points2[2] = createPoint(-60, 0);
+    points2[3] = createPoint(0, 0);
+    figure2 = createFigure(points2, createColor(1.0, 1.0, 0.0));
+
+    addFigToFigList(figlist, figure2);
+
+   points3[0] = createPoint(10, -30);
+    points3[1] = createPoint(40, -30);
+    points3[2] = createPoint(40, 0);
+    points3[3] = createPoint(10, 0);
+    figure3 = createFigure(points3, createColor(1.0, 1.0, 1.0));
+
+    addFigToFigList(figlist, figure3);
+
+//Замінимо фігуру два на фігуру 4 за допомогою функції insertFigToFigListAtIndex
+    removeFigFromFigListAtIndex(figlist, 2);
+
+    points4[0] = createPoint(8, -74);
+    points4[1] = createPoint(30, -74);
+    points4[2] = createPoint(30, 0);
+    points4[3] = createPoint(8, 0);
+    figure4 = createFigure(points4, createColor(0.0, 0.0, 1.0));
+
+    insertFigToFigListAtIndex(figlist, 1, figure4);
+
+    // Ініціалізуємо середовище OpenGL
+    glutInit(&argc, argv);
+    // Створюємо вікно
+    glutInitWindowSize(curr_width, curr_height);
+    glutInitWindowPosition(0, 0);
+    glutCreateWindow(title);
+    // Реєструємо display як функцію малювання
+    glutDisplayFunc(display);
+    // Одразу запускаємо таймер для того, щоб фігури обертались одразу після запуску
+    glutTimerFunc(0, timer_dis, 0);
+    // Запускаємо головний цикл OpenGL
+    glutMainLoop();
+
+    return 0;
 }
