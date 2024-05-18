@@ -8,7 +8,7 @@
 #include "triangle.h"
 
 // Íàçâà òà ðîçì³ðè â³êíà
-char title[] = "Rotating Graph";
+char title[] = "Clock Rotating something";
 int curr_width = 600, curr_height = 600;
 
 int t = 1000 / 24; // Ïåð³îä îáåðòàííÿ ô³ãóðè íàâêîëî ïî÷àòêó êîîðäèíàò (â äàíîìó ïðèêëàä³ ðîáèìî 1 îáåðò çà 24 êàäðè/ñ)
@@ -114,7 +114,7 @@ int main(int argc, char* argv[])
     // Ñòâîðþºìî â³êíî
     glutInitWindowSize(curr_width, curr_height);
     glutInitWindowPosition(0, 0);
-    glutCreateWindow(figure);
+    glutCreateWindow(title);
     // Ðåºñòðóºìî display ÿê ôóíêö³þ ìàëþâàííÿ (â íàøîìó ïðèêëàä³ ïî÷àòêîâîãî)
     glutDisplayFunc(display);
     // Îäðàçó çàïóñêàºìî òàéìåð äëÿ òîãî, ùîá ô³ãóðè îáåðòàëèñü îäðàçó ï³ñëÿ çàïóñêó
