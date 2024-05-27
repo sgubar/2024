@@ -1,7 +1,6 @@
 #include "tree.h"
 #include <stdio.h>
 
-// Функція для введення нового значення в дерево
 void insertUserValue(DoubleTree *tree) {
     double value;
     printf("Введіть нове значення: ");
@@ -9,7 +8,6 @@ void insertUserValue(DoubleTree *tree) {
     insertDoubleValueToTree(tree, value);
 }
 
-// Функція для видалення значення з дерева
 void deleteUserValue(DoubleTree *tree) {
     double value;
     printf("Введіть значення, яке потрібно видалити: ");
@@ -17,7 +15,6 @@ void deleteUserValue(DoubleTree *tree) {
     deleteNodeWithValue(tree, value);
 }
 
-// Функція для пошуку значення в дереві
 void searchUserValue(DoubleTree *tree) {
     double value;
     printf("Введіть значення, яке потрібно знайти: ");
