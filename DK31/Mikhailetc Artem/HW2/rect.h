@@ -1,16 +1,16 @@
-#ifndef RECT_H
-#define RECT_H
-
+#ifndef _rect_h_
+#define _rect_h_
 #include "point.h"
 
-struct Rectangle {
-    Point topLeft;     
-    Point bottomRight; 
-};
+typedef struct tagRectangle {
+    Point *A; 
+    Point *C;
+} Rectangle;
 
-Rectangle* createRectangle(Point* points, int size);
-void destroyRectangle(Rectangle* rect);
-double calculateArea(Rectangle* rect);
-void printRectangle(Rectangle* rect);
 
-#endif // RECT_H
+Rectangle *create_Rectangle(Point *A, Point *C);
+double calculateRectangleArea(Rectangle *R); 
+void destroyRectangle(Rectangle *R);
+void printResult(Rectangle *R);
+
+#endif 
