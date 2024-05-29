@@ -1,36 +1,33 @@
 #include "rect.h"
-#include <stdio.h>
-#include <stdlib.h> 
+#include <stdlib.h>
+#include <string.h>
 
-Rectangle* createRectangle(Point* points, int size) {
-    if (size != 2) {
-        printf("Потрібно передати дві точки для створення прямокутника.\n");
-        return NULL;
-    }
-    
-    Rectangle* rect = (Rectangle*)malloc(sizeof(Rectangle)); 
-    if (rect == NULL) {
-        printf("Не вдалося виділити пам'ять для прямокутника.\n");
-        return NULL;
-    }
-    
-    rect->topLeft = points[0];
-    rect->bottomRight = points[1];
-    
-    return rect;
+Rectangle *create_Rectangle(Point *A, Point *C) {
+  Rectangle *result = (Rectangle *)malloc(sizeof(Rectangle)); 
+
+  if (NULL != result) 
+    result->A = createPoint(A->x, A->y); 
+    result->C = createPoint(C->x, C->y); 
+  }
+
+  return result;
 }
 
-void destroyRectangle(Rectangle* rect) {
-    free(rect);
+void destroyRectangle(Rectangle *R) {
+  if (NULL == R) {
+    return;
+  }
+
+  destroyPoint(R->A);
+  destroyPoint(R->C);
+
+  free(R); 
 }
 
-double calculateArea(Rectangle* rect) {
-    double width = rect->bottomRight.x - rect->topLeft.x;
-    double height = rect->topLeft.y - rect->bottomRight.y;
-    return width * height;
-}
-
-void printRectangle(Rectangle* rect) {
-    printf("Прямокутник з точками (%f, %f) і (%f, %f)\n", 
-           rect->topLeft.x, rect->topLeft.y, rect->bottomRight.x, rect->bottomRight.y);
+double calculateRectangleArea(Rectangle *R)
+{
+    double width = R->A->x - R->C->x;
+    double height = R->A->y - R->C->y;
+    double area =width*height; 
+    return area; 
 }
