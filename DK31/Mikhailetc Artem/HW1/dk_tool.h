@@ -1,9 +1,7 @@
 #ifndef DK_TOOL_H_
 #define DK_TOOL_H_
 
-// Прототипи функцій
-
-// Функція для підрахунку кількості входжень послідовності символів у реченні
 int count_occurrences(char *sentence, char *sequence);
+void remove_newline(char *str);
 
-#endif /* DK_TOOL_H_ */
+#endif 
