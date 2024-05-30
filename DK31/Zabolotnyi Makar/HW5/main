@@ -2,51 +2,41 @@
 #include "tree.h"
 
 int main(int argc, const char * argv[]) {
-  printf("Hello, World!\n");
-  // create a tree
   DoubleTree *tree = createDoubleTree();
-  double value;
-  char choice;
-  // insert some values
-  do{
-    printf("Enter a double value: ");
-    scanf("%lf", &value);
-    insertDoubleValueToTree(tree, value);
-    printf("Do you want to continue? (enter y or n): ");
-    scanf(" %c", &choice);
-    
-  }while(choice == 'Y' || choice == 'y'|| choice == 'n'|| choice == 'N');
-  // print the tree
-  printf("-The tree is:\n");
-  printTree(tree);
-  // find a value
-  do{
-    printf("Enter a value which you want find: ");
-    scanf("%lf", &value);
-    DoubleNode *node = findNodeWithValue(tree, value);
-    if (NULL != node){
-      printf("The value is found: %.1f\n", node->value);
-    }
-    else {printf("The value isn't found\n");}
-    printf("Do you want to continue? (enter y or n): ");
-    scanf(" %c", &choice);
+  insertDoubleValueToTree(tree, 53);
+  insertDoubleValueToTree(tree, 43);
+  insertDoubleValueToTree(tree, 39);
+  insertDoubleValueToTree(tree, 30);
+  insertDoubleValueToTree(tree, 14);
+  insertDoubleValueToTree(tree, 9);
+  insertDoubleValueToTree(tree, 23);
 
-  }while(choice == 'Y' || choice == 'y'|| choice == 'n'|| choice == 'N');
-  // delete a value
-  do{
-    printf("Enter a value to delete: ");
-    scanf("%lf", &value);
-    deleteNodeWithValue(tree, value);
-    printf("Do you want to continue? (enter y or n): ");
-    scanf(" %c", &choice);
-    
-  }while(choice == 'Y' || choice == 'y'|| choice == 'n'|| choice == 'N');
-  // print the tree
-  printf("-After deleting the value\n");
+  insertDoubleValueToTree(tree, 35);
+  insertDoubleValueToTree(tree, 73);
+  insertDoubleValueToTree(tree, 61);
+  insertDoubleValueToTree(tree, 56);
+  insertDoubleValueToTree(tree, 100);
+  insertDoubleValueToTree(tree, 57);
+
   printTree(tree);
-  
-  printf("Good Bye, World!\n");
-  // destroy the tree
+
+  DoubleNode *node43 = findNodeWithValue(tree, 61);
+
+  if (NULL != node43)
+  {
+    printNode(node43);
+    printf("\n");
+  } else {
+    printf("The node with request key/value was not found\n");
+  }
+
+  deleteNodeWithValue(tree, 30);
+  deleteNodeWithValue(tree, 53);
+  printTree(tree);
+
   destroyDoubleTree(tree);
+
+  // insert code here...
+  printf("Hello, World!\n");
   return 0;
 }
