@@ -1,53 +1,52 @@
 #include <windows.h>
-#include <GL/glut.h> //
-#define _USE_MATH_DEFINES
+#include <GL/glut.h>
 #include <math.h>
 #include <iostream>
 
 #include "point.h"
 #include "figure.h"
 
-// РќР°Р·РІР° С‚Р° СЂРѕР·РјС–СЂРё РІС–РєРЅР°
+// Назва та розміри вікна
 char title[] = "Rotating Graph";
 int curr_width = 600, curr_height = 600;
 
-int t = 1000 / 24; // РџРµСЂС–РѕРґ РѕР±РµСЂС‚Р°РЅРЅСЏ С„С–РіСѓСЂРё РЅР°РІРєРѕР»Рѕ РїРѕС‡Р°С‚РєСѓ РєРѕРѕСЂРґРёРЅР°С‚ (РІ РґР°РЅРѕРјСѓ РїСЂРёРєР»Р°РґС– СЂРѕР±РёРјРѕ 1 РѕР±РµСЂС‚ Р·Р° 24 РєР°РґСЂРё/СЃ)
-float theta_spd = 360.0f / t; // РљСѓС‚ РѕР±РµСЂС‚Сѓ РјС–Р¶ РєР°РґСЂР°РјРё
-float theta = 0.0f; // РљСѓС‚ РѕР±РµСЂС‚Сѓ
-FigureList_s* figlist; // CРїРёСЃРѕРє С„С–РіСѓСЂ
+int t = 1000 / 10; // Період обертання фігури навколо початку координат (в даному прикладі робимо 1 оберт за 10 секунд)
+float theta_spd = 360.0f / t; // Кут оберту між кадрами
+float theta = 0.0f; // Кут оберту
+FigureList_s* figlist; // Список фігур
 
 void display()
 {
-    // РњР°Р»СЋРІР°РЅРЅСЏ С„С–РіСѓСЂ РїРѕ РѕРґРЅС–Р№
+    // Малювання фігур по одній
     drawFigList(figlist);
 
-    // Р—Р°РїРёС‚ РЅР° РјР°Р»СЋРІР°РЅРЅСЏ СЃС†РµРЅРё
+    // Запит на малювання сцени
     glFlush();
 }
 
-// Р¦СЏ С„СѓРЅРєС†С–СЏ РІРёРєР»РёРєР°С”С‚СЊСЃСЏ С‡РµСЂРµР· t РјСЃ РїС–СЃР»СЏ СѓРІС–РјРєРЅРµРЅРЅСЏ С‚Р°Р№РјРµСЂСѓ С– РїРµСЂРµРјР°Р»СЊРѕРІСѓС” С„С–РіСѓСЂРё
+// Ця функція викликається через t мс після увімкнення таймеру і перемальовує фігури
 void timer_dis(int v)
 {
-    // РћС‡РёС‰СѓС”РјРѕ Р±СѓС„РµСЂ С‰РѕР± Р·РѕР±СЂР°Р¶РµРЅРЅСЏ РЅРµ РЅР°РєР»Р°РґР°Р»РёСЃСЏ
+    // Очищуємо буфер щоб зображення не накладалися
     glClear(GL_COLOR_BUFFER_BIT);
 
-    // Р’РёРєРѕРЅСѓС”С‚СЊСЃСЏ РѕР±РµСЂС‚Р°РЅРЅСЏ СЃС†РµРЅРё
+    // Виконується обертання сцени
     glPushMatrix();
     glRotatef(theta, 0.0f, 0.0f, 1.0f);
 
-    // РњР°Р»СЋРІР°РЅРЅСЏ С„С–РіСѓСЂ РїРѕ РѕРґРЅС–Р№
+    // Малювання фігур по одній
     drawFigList(figlist);
 
-    // Р—Р°РїРёС‚ РЅР° РјР°Р»СЋРІР°РЅРЅСЏ СЃС†РµРЅРё
+    // Запит на малювання сцени
     glFlush();
 
-    // РџРѕРІРµСЂРЅРµРЅРЅСЏ РґРѕ РїРѕС‡Р°С‚РєРѕРІРёС… РЅР°Р»Р°С€С‚СѓРІР°РЅСЊ РІРёРґСѓ СЃС†РµРЅРё
+    // Повернення до початкових налаштувань виду сцени
     glPopMatrix();
 
-    // РџРµСЂРµР·Р°РїСѓСЃРє С‚Р°Р№РјРµСЂР°
+    // Перезапуск таймера
     glutTimerFunc(t, timer_dis, 0);
 
-    // РћРЅРѕРІР»РµРЅРЅСЏ РєСѓС‚Р° РѕР±РµСЂС‚Сѓ
+    // Оновлення кута оберту
     theta += theta_spd;
     if (theta >= (360)){
         theta = 0;
@@ -59,61 +58,39 @@ int main(int argc, char* argv[])
 {
     Point* points1[4];
     Point* points2[4];
-    Point* points3[4];
-    Point* points4[4];
 
-    Figure_s *figure1, *figure2, *figure3, *figure4;
+    Figure_s *figure1, *figure2;
 
-    // РЎС‚РІРѕСЂРёРјРѕ СЃРїРёСЃРѕРє С„С–РіСѓСЂ
+    // Створимо список фігур
     figlist = createFigList();
 
-    // РЎС‚РІРѕСЂРёРјРѕ С„С–РіСѓСЂРё С– РґРѕРґР°РјРѕ С—С… РґРѕ СЃРїРёСЃРєСѓ
+    // Створимо фігури і додамо їх до списку
     points1[0] = createPoint(10, 50);
     points1[1] = createPoint(50, 50);
     points1[2] = createPoint(50, 10);
     points1[3] = createPoint(10, 10);
-    figure1 = createFigure(points1, createColor(1.0, 0.0, 0.0));
+    figure1 = createFigure(points1, createColor(0.0, 0.0, 1.0));
 
-    addFigToFigList(figlist, figure1); //Р”РѕРґР°С”РјРѕ С„С–РіСѓСЂСѓ 1 РґРѕ СЃРїРёСЃРєСѓ
-
-    points2[0] = createPoint(0, -60);
-    points2[1] = createPoint(-60, -60);
-    points2[2] = createPoint(-60, 0);
-    points2[3] = createPoint(0, 0);
-    figure2 = createFigure(points2, createColor(1.0, 1.0, 0.0));
+    addFigToFigList(figlist, figure1); //Додаємо фігуру 1 до списку
+    points2[0] = createPoint(0, -40);   // Ліва нижня точка
+    points2[1] = createPoint(-80, -40); // Ліва верхня точка
+    points2[2] = createPoint(-80, 0);   // Права верхня точка
+    points2[3] = createPoint(0, 0);     // Права нижня точка
+    figure2 = createFigure(points2, createColor(0.0, 1.0, 0.0));
 
     addFigToFigList(figlist, figure2);
 
-   points3[0] = createPoint(10, -30);
-    points3[1] = createPoint(40, -30);
-    points3[2] = createPoint(40, 0);
-    points3[3] = createPoint(10, 0);
-    figure3 = createFigure(points3, createColor(1.0, 1.0, 1.0));
-
-    addFigToFigList(figlist, figure3);
-
-//Р—Р°РјС–РЅРёРјРѕ С„С–РіСѓСЂСѓ РґРІР° РЅР° С„С–РіСѓСЂСѓ 4 Р·Р° РґРѕРїРѕРјРѕРіРѕСЋ С„СѓРЅРєС†С–С— insertFigToFigListAtIndex
-    removeFigFromFigListAtIndex(figlist, 2);
-
-    points4[0] = createPoint(8, -74);
-    points4[1] = createPoint(30, -74);
-    points4[2] = createPoint(30, 0);
-    points4[3] = createPoint(8, 0);
-    figure4 = createFigure(points4, createColor(0.0, 0.0, 1.0));
-
-    insertFigToFigListAtIndex(figlist, 1, figure4);
-
-    // Р†РЅС–С†С–Р°Р»С–Р·СѓС”РјРѕ СЃРµСЂРµРґРѕРІРёС‰Рµ OpenGL
+    // Ініціалізуємо середовище OpenGL
     glutInit(&argc, argv);
-    // РЎС‚РІРѕСЂСЋС”РјРѕ РІС–РєРЅРѕ
+    // Створюємо вікно
     glutInitWindowSize(curr_width, curr_height);
     glutInitWindowPosition(0, 0);
     glutCreateWindow(title);
-    // Р РµС”СЃС‚СЂСѓС”РјРѕ display СЏРє С„СѓРЅРєС†С–СЋ РјР°Р»СЋРІР°РЅРЅСЏ
+    // Реєструємо display як функцію малювання
     glutDisplayFunc(display);
-    // РћРґСЂР°Р·Сѓ Р·Р°РїСѓСЃРєР°С”РјРѕ С‚Р°Р№РјРµСЂ РґР»СЏ С‚РѕРіРѕ, С‰РѕР± С„С–РіСѓСЂРё РѕР±РµСЂС‚Р°Р»РёСЃСЊ РѕРґСЂР°Р·Сѓ РїС–СЃР»СЏ Р·Р°РїСѓСЃРєСѓ
+    // Одразу запускаємо таймер для того, щоб фігури обертались одразу після запуску
     glutTimerFunc(0, timer_dis, 0);
-    // Р—Р°РїСѓСЃРєР°С”РјРѕ РіРѕР»РѕРІРЅРёР№ С†РёРєР» OpenGL
+    // Запускаємо головний цикл OpenGL
     glutMainLoop();
 
     return 0;
