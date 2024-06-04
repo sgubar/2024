@@ -1,14 +1,18 @@
 #include <GL/glut.h>
 #include <cmath>
-// Варіант 9 Михайлець А.М. ДК-31
+// Р’Р°СЂС–Р°РЅС‚ 9 РњРёС…Р°Р№Р»РµС†СЊ Рђ.Рњ. Р”Рљ-31
+// РљРѕР»С–СЂ РіСЂР°С„С–РєР° - Р—РµР»РµРЅРёР№
+// РљРѕР»С–СЂ РєРѕРѕСЂРґРёРЅР°С‚РЅРёС… РѕСЃРµР№ - РЎРёРЅС–Р№
+// РљРѕР»С–СЂ С„РѕРЅСѓ - РљРѕСЂРёС‡РЅРµРІРёР№
+
 
 void display() {
     glClear(GL_COLOR_BUFFER_BIT);
 
-    glColor3f(0.0, 1.0, 0.0); // Зелений колір графіка
+    glColor3f(0.0, 1.0, 0.0); // Р—РµР»РµРЅРёР№ РєРѕР»С–СЂ РіСЂР°С„С–РєР°
     glBegin(GL_LINE_STRIP);
 
-    // Обчислення і відображення точок графіка
+    // РћР±С‡РёСЃР»РµРЅРЅСЏ С– РІС–РґРѕР±СЂР°Р¶РµРЅРЅСЏ С‚РѕС‡РѕРє РіСЂР°С„С–РєР°
     for (float t = 0; t <= M_PI; t += 0.01) {
         float x = sin(3*t) * cos(t);
         float y = sin(3*t) * sin(t);
@@ -17,8 +21,8 @@ void display() {
 
     glEnd();
 
-    // Відображення координатних осей
-    glColor3f(0.0, 0.0, 1.0); // Синій колір осей та поділок
+    // Р’С–РґРѕР±СЂР°Р¶РµРЅРЅСЏ РєРѕРѕСЂРґРёРЅР°С‚РЅРёС… РѕСЃРµР№
+    glColor3f(0.0, 0.0, 1.0); // РЎРёРЅС–Р№ РєРѕР»С–СЂ РѕСЃРµР№ С‚Р° РїРѕРґС–Р»РѕРє
     glBegin(GL_LINES);
     glVertex2f(-1.0, 0.0);
     glVertex2f(1.0, 0.0);
@@ -30,18 +34,18 @@ void display() {
 }
 
 void init() {
-    glClearColor(0.7, 0.4, 0.1, 1.0); // Коричневий колір фону
+    glClearColor(0.7, 0.4, 0.1, 1.0); // РљРѕСЂРёС‡РЅРµРІРёР№ РєРѕР»С–СЂ С„РѕРЅСѓ
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    gluOrtho2D(-1.5, 1.5, -1.5, 1.5); // Встановлення області відображення
+    gluOrtho2D(-1.5, 1.5, -1.5, 1.5); // Р’СЃС‚Р°РЅРѕРІР»РµРЅРЅСЏ РѕР±Р»Р°СЃС‚С– РІС–РґРѕР±СЂР°Р¶РµРЅРЅСЏ
 }
 
 int main(int argc, char** argv) {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
-    glutInitWindowSize(600, 600); // Розмір вікна
-    glutInitWindowPosition(100, 100); // Позиція вікна
-    glutCreateWindow("OpenGL 2D"); // Заголовок вікна
+    glutInitWindowSize(600, 600); 
+    glutInitWindowPosition(100, 100); // РџРѕР·РёС†С–СЏ РІС–РєРЅР°
+    glutCreateWindow("OpenGL 2D"); 
     init();
     glutDisplayFunc(display);
     glutMainLoop();
