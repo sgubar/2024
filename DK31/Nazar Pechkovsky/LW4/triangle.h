@@ -47,10 +47,10 @@ TriangleList_s *createTriList(void);
 void deleteTriList(TriangleList_s *list);
 void drawTriList(TriangleList_s *list);
 long countOfTriList(TriangleList_s *list);
-int addTriToTriList(TriangleList_s *list, Triangle* triangle); // 1 - , 0 - 
+int addTriToTriList(TriangleList_s *list, Triangle* triangle); 
 void removeLastElementFromTriList(TriangleList_s *list);
 void removeFirstElementFromTriList(TriangleList_s *list);
-int insertTriToTriListAtIndex(TriangleList_s *list, int index, Triangle* triangle); // 1 - , 0 - 
-int removeTriFromTriListAtIndex(TriangleList_s *list, int index); // 1 - , 0 - 
+int insertTriToTriListAtIndex(TriangleList_s *list, int index, Triangle* triangle); 
+int removeTriFromTriListAtIndex(TriangleList_s *list, int index);
 
 #endif
