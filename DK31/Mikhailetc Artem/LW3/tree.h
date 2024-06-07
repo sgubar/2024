@@ -1,27 +1,24 @@
-#ifndef tree_h
-#define tree_h
+#ifndef TREE_H
+#define TREE_H
 
-#include <stdio.h>
+typedef double VALTYPE;
 
-typedef struct tagNode {
-  double value;
-  struct tagNode *leftChild;
-  struct tagNode *rightChild;
-} DoubleNode;
+typedef struct TreeNode {
+    VALTYPE num;
+    struct TreeNode *left;
+    struct TreeNode *right;
+} TreeNode;
 
-typedef struct tagTree {
-  DoubleNode *root;
-  int count;
-} DoubleTree;
+typedef struct Tree {
+    TreeNode *root;
+    int count;
+} Tree;
 
-DoubleTree *createDoubleTree();
-void destroyDoubleTree(DoubleTree *aTree);
+Tree *createTree(void);
+void destroyTree(Tree *tree);
+void insertElement(Tree *tree, VALTYPE num);
+void deleteElement(Tree *tree, VALTYPE num);
+TreeNode* searchElement(Tree *tree, VALTYPE num);
+void printTree(Tree *tree);
 
-void insertDoubleValueToTree(DoubleTree *aTree, double aValue);
-DoubleNode *findNodeWithValue(DoubleTree *aTree, double aValue);
-void deleteNodeWithValue(DoubleTree *aTree, double aValue);
-
-void printTree(DoubleTree *aTree);
-void printNode(DoubleNode *aNode);
-
-#endif
+#endif // TREE_H
