@@ -1,178 +1,128 @@
-#include "tree.h"
+#include <stdio.h>
 #include <stdlib.h>
+#include "tree.h"
 
-static void destroyNode(DoubleNode *aNode);
-static DoubleNode *createDoubleNodeWithValue(double aValue);
-static DoubleNode *getSuccessor(DoubleTree *tree, DoubleNode *toDelete);
-static void print_double_node(DoubleNode *node);
-
-DoubleTree *createDoubleTree() {
-  DoubleTree *theTree = (DoubleTree *)malloc(sizeof(DoubleTree));
-  if (NULL != theTree) {
-    theTree->root = NULL;
-    theTree->count = 0;
-  }
-  return theTree;
+Tree *createTree(void) {
+    Tree *result = (Tree*) malloc(sizeof(Tree));
+    if (result != NULL) {
+        result->root = NULL;
+        result->count = 0;
+    }
+    return result;
 }
 
-void destroyDoubleTree(DoubleTree *aTree) {
-  if (NULL != aTree) {
-    destroyNode(aTree->root);
-    free(aTree);
-  }
+void destroyNode(TreeNode *currentNode) {
+    if (currentNode != NULL) {
+        destroyNode(currentNode->left);
+        destroyNode(currentNode->right);
+        free(currentNode);
+    }
 }
 
-void insertDoubleValueToTree(DoubleTree *aTree, double aValue) {
-  if (NULL == aTree) {
-    return;
-  }
-  DoubleNode *theNode = createDoubleNodeWithValue(aValue);
-  if (NULL == theNode) {
-    return;
-  }
-  if (NULL == aTree->root) {
-    aTree->root = theNode;
-    aTree->count++;
-  } else {
-    DoubleNode *theCurrent = aTree->root;
-    DoubleNode *theParent = NULL;
-    while (1) {
-      theParent = theCurrent;
-      if (aValue < theCurrent->value) {
-        theCurrent = theCurrent->leftChild;
-        if (NULL == theCurrent) {
-          theParent->leftChild = theNode;
-          break;
+void destroyTree(Tree *tree) {
+    if (tree != NULL) {
+        destroyNode(tree->root);
+        free(tree);
+    }
+}
+
+signed char insertNode(TreeNode **current, VALTYPE num) {
+    if (*current == NULL) {
+        *current = (TreeNode*) malloc(sizeof(TreeNode));
+        if (*current != NULL) {
+            (*current)->num = num;
+            (*current)->left = NULL;
+            (*current)->right = NULL;
+            return 1;
         }
-      } else {
-        theCurrent = theCurrent->rightChild;
-        if (NULL == theCurrent) {
-          theParent->rightChild = theNode;
-          break;
+        return 0;
+    }
+
+    if (num < (*current)->num) {
+        return insertNode(&((*current)->left), num);
+    } else if (num > (*current)->num) {
+        return insertNode(&((*current)->right), num);
+    }
+    return 0;
+}
+
+void insertElement(Tree *tree, VALTYPE num) {
+    if (tree != NULL) {
+        tree->count += insertNode(&(tree->root), num);
+    }
+}
+
+TreeNode **searchNode(TreeNode **current, VALTYPE num) {
+    if (*current == NULL) {
+        return NULL;
+    }
+
+    if (num < (*current)->num) {
+        return searchNode(&((*current)->left), num);
+    } else if (num > (*current)->num) {
+        return searchNode(&((*current)->right), num);
+    } else {
+        return current;
+    }
+}
+
+TreeNode* searchElement(Tree *tree, VALTYPE num) {
+    if (tree == NULL) {
+        return NULL;
+    }
+
+    TreeNode **res = searchNode(&(tree->root), num);
+    return (res == NULL ? NULL : *res);
+}
+
+void deleteNode(TreeNode **currentPtr) {
+    TreeNode *current = *currentPtr;
+
+    if (current->left == NULL && current->right == NULL) {
+        *currentPtr = NULL;
+    } else if (current->left == NULL) {
+        *currentPtr = current->right;
+    } else if (current->right == NULL) {
+        *currentPtr = current->left;
+    } else {
+        TreeNode **successorPtr = &(current->right);
+        while ((*successorPtr)->left != NULL) {
+            successorPtr = &((*successorPtr)->left);
         }
-      }
+        current->num = (*successorPtr)->num;
+        TreeNode *successor = *successorPtr;
+        *successorPtr = (*successorPtr)->right;
+        free(successor);
+        return;
     }
-    aTree->count++;
-  }
+    free(current);
 }
 
-DoubleNode *findNodeWithValue(DoubleTree *aTree, double aValue) {
-  DoubleNode *theCurrentNode = NULL;
-  if (NULL != aTree && NULL != aTree->root) {
-    theCurrentNode = aTree->root;
-    while (aValue != theCurrentNode->value) {
-      theCurrentNode = (aValue < theCurrentNode->value) ? theCurrentNode->leftChild : theCurrentNode->rightChild;
-      if (NULL == theCurrentNode) {
-        break;
-      }
+void deleteElement(Tree *tree, VALTYPE num) {
+    if (tree == NULL) {
+        return;
     }
-  }
-  return theCurrentNode;
+
+    TreeNode **currentPtr = searchNode(&(tree->root), num);
+    if (currentPtr != NULL) {
+        deleteNode(currentPtr);
+        tree->count--;
+    }
 }
 
-void deleteNodeWithValue(DoubleTree *aTree, double aValue) {
-  if (NULL == aTree || NULL == aTree->root) {
-    return;
-  }
-  DoubleNode *current = aTree->root;
-  DoubleNode *parent = aTree->root;
-  while (aValue != current->value) {
-    parent = current;
-    current = (aValue < current->value) ? current->leftChild : current->rightChild;
-    if (NULL == current) {
-      return;
+void printNode(TreeNode *node) {
+    if (node != NULL) {
+        printNode(node->left);
+        printNode(node->right);
+        printf("%lf ", node->num);
     }
-  }
-  if (NULL == current->leftChild && NULL == current->rightChild) {
-    if (aTree->root == current) {
-      aTree->root = NULL;
-    } else if (parent->leftChild == current) {
-      parent->leftChild = NULL;
+}
+
+void printTree(Tree *tree) {
+    if (tree != NULL) {
+        printNode(tree->root);
+        printf("\n");
     } else {
-      parent->rightChild = NULL;
+        printf("(NULL)\n");
     }
-    aTree->count--;
-  } else if (NULL == current->rightChild) {
-    if (aTree->root == current) {
-      aTree->root = current->leftChild;
-    } else if (parent->leftChild == current) {
-      parent->leftChild = current->leftChild;
-    } else {
-      parent->rightChild = current->leftChild;
-    }
-  } else if (NULL == current->leftChild) {
-    if (aTree->root == current) {
-      aTree->root = current->rightChild;
-    } else if (parent->rightChild == current) {
-      parent->rightChild = current->rightChild;
-    } else {
-      parent->leftChild = current->rightChild;
-    }
-  } else {
-    DoubleNode *successor = getSuccessor(aTree, current);
-    if (aTree->root == successor) {
-      aTree->root = NULL;
-    } else if (parent->leftChild == current) {
-      parent->leftChild = successor;
-    } else {
-      parent->rightChild = successor;
-    }
-    current->leftChild = NULL;
-    current->rightChild = NULL;
-  }
-  destroyNode(current);
-}
-
-void printTree(DoubleTree *aTree) {
-  DoubleNode *item = aTree->root;
-  print_double_node(item);
-}
-
-void print_double_node(DoubleNode *node) {
-  if (node == NULL)
-    return;
-  print_double_node(node->leftChild);
-  printf("Element: %f\n", node->value);
-  print_double_node(node->rightChild);
-}
-
-void printNode(DoubleNode *aNode) {
-  if (aNode == NULL)
-    return;
-  printf("value: %f\n", aNode->value);
-}
-
-void destroyNode(DoubleNode *aNode) {
-  if (NULL != aNode) {
-    destroyNode(aNode->leftChild);
-    destroyNode(aNode->rightChild);
-    free(aNode);
-  }
-}
-
-DoubleNode *createDoubleNodeWithValue(double aValue) {
-  DoubleNode *theNode = (DoubleNode *)malloc(sizeof(DoubleNode));
-  if (NULL != theNode) {
-    theNode->leftChild = NULL;
-    theNode->rightChild = NULL;
-    theNode->value = aValue;
-  }
-  return theNode;
-}
-
-DoubleNode *getSuccessor(DoubleTree *tree, DoubleNode *toDelete) {
-  DoubleNode *successParent = toDelete;
-  DoubleNode *successor = toDelete;
-  DoubleNode *current = toDelete->rightChild;
-  while (NULL != current) {
-    successParent = successor;
-    successor = current;
-    current = current->leftChild;
-  }
-  if (successor != toDelete->rightChild) {
-    successParent->leftChild = successor->rightChild;
-    successor->rightChild = toDelete->rightChild;
-  }
-  successor->leftChild = toDelete->leftChild;
-  return successor;
 }
