@@ -56,13 +56,25 @@ void removeElementInList(List *list, char *str) {
   // if element is head
   if (strcmp(str, current->word) == 0) {
     list->head = current->nextNode;
+    free(current->word);
+    free(current);
+    return;
   }
 
   while (NULL != current) {
     if (strcmp(str, current->word) == 0) {
+      // if element is tail
+      if (strcmp(str, list->tail->word) == 0) {
+        list->tail = previous;
+      }
 
+      previous->nextNode = current->nextNode;
+      free(current->word);
+      free(current);
       return;
     }
+    previous = current;
+    current = current->nextNode;
   }
 }
 
@@ -134,11 +146,13 @@ void bubbleSort(List *list) {
         // somewhere inside
         previous->nextNode = second;
       }
+
       previous = second;
 
       changed = 1;
     } else {
       // just proccess to next node
+      previous = first;
       first = second;
     }
 
@@ -223,7 +237,7 @@ void readWordsFromUser(List *list) {
   char input_buffer[100];
   int result;
 
-  printf("Write words separated with spaces.\n");
+  printf("Write your words separated with spaces.\n");
 
   // cycle through all words and add them to list if it's actually words
   do {
